@@ -2,7 +2,6 @@
   "name": "event-scheduler",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://49.207.10.13:3009/",
   "dependencies": {
     "@devexpress/dx-react-core": "^4.0.8",
     "@devexpress/dx-react-scheduler": "^4.0.8",
@@ -35,7 +34,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "cross-env HTTPS=true PORT=3000 react-scripts start",
+    "start": "cross-env HTTPS=true PORT=3005 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

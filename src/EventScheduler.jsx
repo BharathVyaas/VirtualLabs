@@ -29,7 +29,7 @@ import {
 } from "@mui/material";
 import SlotModal from "./SlotModal";
 import CheckIcon from "@mui/icons-material/Check";
-import Logo from "./assets/Naresh_IT_Logo.png";
+import Logo from "./assets/logo.png";
 import { addDays, getISOWeek, getMonth, getYear, startOfWeek } from "date-fns";
 import axios from "axios";
 import bgVlabs from "./assets/bgVlabs.jpeg";
@@ -61,7 +61,7 @@ const EventSchedulerV2 = () => {
     try {
       if (selectedTechnology) {
         const res = await axios.post(
-          "https://49.207.10.13:3009/Retrive_SlotDetails_V1",
+          "http://49.207.10.13:3009/Retrive_SlotDetails_V1",
           {
             WeekNumber: WEEKNUMBER,
             TechnologyId: technologyId || selectedTechnology,
@@ -94,21 +94,25 @@ const EventSchedulerV2 = () => {
   };
 
   const fetchTechnologies = async () => {
-    const res = await axios.post(
-      "https://49.207.10.13:3009/FetchTechnologyBy_Email",
-      {
-        Email: validatedEmail,
-      }
-    );
-    setTechnologyOptions(
-      res?.data?.dbresult?.map((technology) => ({
-        id: technology.TechnologyID,
-        name: technology.TechnologyName,
-      })) || []
-    );
+    try {
+      const res = await axios.post(
+        "http://49.207.10.13:3009/FetchTechnologyBy_Email",
+        {
+          Email: validatedEmail,
+        }
+      );
+      setTechnologyOptions(
+        res?.data?.dbresult?.map((technology) => ({
+          id: technology.TechnologyID,
+          name: technology.TechnologyName,
+        })) || []
+      );
 
-    if (res?.data?.dbresult?.length === 1) {
-      setSelectedTechnology(res?.data?.dbresult[0].TechnologyID);
+      if (res?.data?.dbresult?.length === 1) {
+        setSelectedTechnology(res?.data?.dbresult[0].TechnologyID);
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -142,29 +146,33 @@ const EventSchedulerV2 = () => {
   };
 
   const handleSubmitEmail = async () => {
-    const re =
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    try {
+      const re =
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-    if (re.test(email)) {
-      const res = await axios.post(
-        "https://49.207.10.13:3009/Fetch_StudentEmail",
-        {
-          Email: email,
+      if (re.test(email)) {
+        const res = await axios.post(
+          "http://49.207.10.13:3009/Fetch_StudentEmail",
+          {
+            Email: email,
+          }
+        );
+        if (res?.data?.dbresult?.[0]?.IsAuthenticated) {
+          setStudentId(res?.data?.dbresult?.[0]?.studentId);
+          setActiveTab("schedule");
+          setIsModalOpen(false);
+          setValidatedEmail(email);
+        } else {
+          setValidatedEmail(false);
         }
-      );
-      if (res?.data?.dbresult?.[0]?.IsAuthenticated) {
-        setStudentId(res?.data?.dbresult?.[0]?.studentId);
-        setActiveTab("schedule");
-        setIsModalOpen(false);
-        setValidatedEmail(email);
       } else {
         setValidatedEmail(false);
       }
-    } else {
-      setValidatedEmail(false);
-    }
 
-    setSubmitClicked(true);
+      setSubmitClicked(true);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const handleSchedule = async (e, appointmentData) => {
@@ -173,7 +181,7 @@ const EventSchedulerV2 = () => {
       setIsModalOpen(false);
       setShowThankYouModal(true);
       const res = await axios.post(
-        "https://49.207.10.13:3009/Update_BookSlot_V1",
+        "http://49.207.10.13:3009/Update_BookSlot_V1",
         {
           WeekNumber: WEEKNUMBER,
           DayNumber: getISODay(appointmentData.startDate) + 1,
@@ -256,7 +264,7 @@ const EventSchedulerV2 = () => {
       try {
         if (selectedTechnology) {
           const res = await axios.post(
-            "https://49.207.10.13:3009/Retrive_SlotDetails_V1",
+            "http://49.207.10.13:3009/Retrive_SlotDetails_V1",
             {
               WeekNumber: weekNumber,
               TechnologyId: selectedTechnology,
@@ -350,7 +358,7 @@ const EventSchedulerV2 = () => {
                     >
                       {/** bg test */}
                       <div className="hidden">
-                        <a href="https://www.freepik.com/free-vector/programmer-working-isometric-style_4911005.htm#query=web%20developer&position=13&from_view=keyword&track=ais&uuid=0eb8da38-bad0-4f11-85bd-43323642ff8f">
+                        <a href="http://www.freepik.com/free-vector/programmer-working-isometric-style_4911005.htm#query=web%20developer&position=13&from_view=keyword&track=ais&uuid=0eb8da38-bad0-4f11-85bd-43323642ff8f">
                           Image by pikisuperstar
                         </a>
                         on Freepik
