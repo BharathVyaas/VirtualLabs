@@ -62,7 +62,7 @@ const EventSchedulerV2 = () => {
     try {
       if (selectedTechnology) {
         const res = await axios.post(
-          "http://49.207.10.13:3009/Retrive_SlotDetails_V1",
+          "https://49.207.10.13:3009/Retrive_SlotDetails_V1",
           {
             WeekNumber: WEEKNUMBER,
             TechnologyId: technologyId || selectedTechnology,
@@ -97,7 +97,7 @@ const EventSchedulerV2 = () => {
   const fetchTechnologies = async () => {
     try {
       const res = await axios.post(
-        "http://49.207.10.13:3009/FetchTechnologyBy_Email",
+        "https://49.207.10.13:3009/FetchTechnologyBy_Email",
         {
           Email: validatedEmail,
         }
@@ -153,7 +153,7 @@ const EventSchedulerV2 = () => {
 
       if (re.test(email)) {
         const res = await axios.post(
-          "http://49.207.10.13:3009/Fetch_StudentEmai",
+          "https://49.207.10.13:3009/Fetch_StudentEmai",
           {
             Email: email,
           }
@@ -185,7 +185,7 @@ const EventSchedulerV2 = () => {
       setIsModalOpen(false);
       setShowThankYouModal(true);
       const res = await axios.post(
-        "http://49.207.10.13:3009/Update_BookSlot_V1",
+        "https://49.207.10.13:3009/Update_BookSlot_V1",
         {
           WeekNumber: WEEKNUMBER,
           DayNumber: getISODay(appointmentData.startDate) + 1,
@@ -268,7 +268,7 @@ const EventSchedulerV2 = () => {
       try {
         if (selectedTechnology) {
           const res = await axios.post(
-            "http://49.207.10.13:3009/Retrive_SlotDetails_V1",
+            "https://49.207.10.13:3009/Retrive_SlotDetails_V1",
             {
               WeekNumber: weekNumber,
               TechnologyId: selectedTechnology,
@@ -362,7 +362,7 @@ const EventSchedulerV2 = () => {
                     >
                       {/** bg test */}
                       <div className="hidden">
-                        <a href="http://www.freepik.com/free-vector/programmer-working-isometric-style_4911005.htm#query=web%20developer&position=13&from_view=keyword&track=ais&uuid=0eb8da38-bad0-4f11-85bd-43323642ff8f">
+                        <a href="https://www.freepik.com/free-vector/programmer-working-isometric-style_4911005.htm#query=web%20developer&position=13&from_view=keyword&track=ais&uuid=0eb8da38-bad0-4f11-85bd-43323642ff8f">
                           Image by pikisuperstar
                         </a>
                         on Freepik
