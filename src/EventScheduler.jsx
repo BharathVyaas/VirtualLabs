@@ -56,6 +56,7 @@ const EventSchedulerV2 = () => {
   const [showThankYouModal, setShowThankYouModal] = useState(false);
   const [submitClicked, setSubmitClicked] = useState(false);
   const [userNavigated, setUserNavigated] = useState();
+  const [errorMsg, setErrorMsg] = useState("");
 
   const fetchSlots = async (technologyId) => {
     try {
@@ -152,7 +153,7 @@ const EventSchedulerV2 = () => {
 
       if (re.test(email)) {
         const res = await axios.post(
-          "http://49.207.10.13:3009/Fetch_StudentEmail",
+          "http://49.207.10.13:3009/Fetch_StudentEmai",
           {
             Email: email,
           }
@@ -162,15 +163,18 @@ const EventSchedulerV2 = () => {
           setActiveTab("schedule");
           setIsModalOpen(false);
           setValidatedEmail(email);
+        } else if (res.status !== 200) {
+          setErrorMsg("Email validation failed please try later.");
         } else {
           setValidatedEmail(false);
         }
       } else {
         setValidatedEmail(false);
       }
-
+      setErrorMsg("");
       setSubmitClicked(true);
     } catch (err) {
+      setErrorMsg("Email validation failed please try later.");
       console.error(err);
     }
   };
@@ -395,19 +399,24 @@ const EventSchedulerV2 = () => {
                         </Button>
                       </Box>
                       {/* Error message */}
-                      {submitClicked && !validatedEmail && (
-                        <Typography
-                          variant="h6"
-                          color="error"
-                          textAlign="center"
-                        >
-                          <p>
-                            Entered Email is not registered please use
-                            registered email.
-                          </p>
-                          <p>helpline: 8179191999</p>
-                        </Typography>
-                      )}
+                      {(submitClicked || errorMsg) &&
+                        (!validatedEmail || errorMsg) && (
+                          <Typography
+                            variant="h6"
+                            color="error"
+                            textAlign="center"
+                          >
+                            {errorMsg ? (
+                              <p>{errorMsg}</p>
+                            ) : (
+                              <p>
+                                Entered Email is not registered please use
+                                registered email.
+                              </p>
+                            )}
+                            <p>helpline: 8179191999</p>
+                          </Typography>
+                        )}
                     </Box>
                   )}
                   {/* Schedule tab */}
