@@ -153,7 +153,7 @@ const EventSchedulerV2 = () => {
 
       if (re.test(email)) {
         const res = await axios.post(
-          "https://49.207.10.13:3009/Fetch_StudentEmai",
+          "https://49.207.10.13:3009/Fetch_StudentEmail",
           {
             Email: email,
           }
